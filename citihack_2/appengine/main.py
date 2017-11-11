@@ -15,20 +15,69 @@
 # [START app]
 import logging
 
-from flask import Flask
-
+from flask import Flask, make_response
+from flask_restful import Api, Resource, abort
 
 app = Flask(__name__)
+api = Api(app)
+
+test1 = ''
 
 
-@app.route('/')
-def hello():
-    return 'Hello World!'
+
+# @app.route('/')
+# def hello():
+#     return 'Hello World!'
+
+
+# @app.errorhandler(500)
+# def server_error(e):
+#     # Log the error and stacktrace.
+#     logging.exception('An error occurred during a request.')
+#     return 'An internal error occurred.', 500
+# # [END app]
+
+boilerplate = ''
+
+
+class HelloWorld(Resource):
+    def get(self):
+        return {'hello': 'world'}
+
+
+class TestList(Resource):
+    def get(self):
+        return {'Square Root': '/1', 'Sorting Algorithm':'/2','Shuffle algorithm':'/2'}
+
+class Submit(Resource):
+	def post(self):
+		return {'test':'test'}
+
+class SquareRoot(Resource):
+	def get(self):
+		return {'name':'Square Root Test',
+		'description':'This test is designed to test the candidate\'s ability to implement the algorithm for a square root.',
+		'boilerplate':boilerplate}
+		
+
+api.add_resource(HelloWorld, '/')
+api.add_resource(TestList, '/tests/')
+api.add_resource(SquareRoot, '/tests/1')
+api.add_resource(Submit, '/submit/<test_no>')
+
+# @app.errorhandler(404)
+# def page_not_found(e):
+#     """Return a custom 404 error."""
+#     return 'Sorry, Nothing at this URL.', 404
 
 
 @app.errorhandler(500)
-def server_error(e):
-    # Log the error and stacktrace.
-    logging.exception('An error occurred during a request.')
-    return 'An internal error occurred.', 500
-# [END app]
+def page_not_found(e):
+    """Return a custom 500 error."""
+    return 'Sorry, unexpected error: {}'.format(e), 500
+
+
+print('it runs')
+
+if __name__ == "__main__":
+    app.run(debug=True,host='0.0.0.0')
