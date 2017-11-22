@@ -32,3 +32,12 @@
     <script src="modules/home/controllers.js"></script>
 </body>
 </html>
+
+
+curl http://localhost:5000/submit/1 -d "testable= f = lambda x: math.sqrt(x)" -X POST
+true
+nikita@nikita-W230ST:~$ curl http://localhost:5000/submit/1 -d "testable= f = lambda x: x*2" -X POST
+
+curl http://localhost:5000/submit/1 -d "testable= f = lambda x: math.sqrt(x)" -X POST
+
+curl http://localhost:5000/submit/1 -d "testable= f = lambda x: x*2" -X POST
